@@ -61,28 +61,16 @@ You have VM or Linux OS, and Internet Connection
    sudo systemctl status logstash
    sudo systemctl start logstash
    ```
-9. Install NPM packages
+9. By default, Logstash listens for metrics on port 9600. As we did before, list the open ports on your computer looking for that specific port.
    ```sh
-   npm install
+   sudo lsof -i -P -n | grep LISTEN | grep 9600
+   java      28872        logstash   79u  IPv6 1160098941      0t0  TCP 127.0.0.1:9600 (LISTEN)
    ```
-10. Install NPM packages
-    ```sh
-    npm install
-    ```
-11. Installing Logstash
-    ```sh
-    sudo apt-get install logstash
-    ```
-12. By default, Logstash listens for metrics on port 9600. As we did before, list the open ports on your computer looking for that specific port.
-    ```sh
-    sudo lsof -i -P -n | grep LISTEN | grep 9600
-    java      28872        logstash   79u  IPv6 1160098941      0t0  TCP 127.0.0.1:9600 (LISTEN)
-    ```
-13. Installing Kibana
+10. Installing Kibana
     ```sh
     sudo apt-get install kibana
     ```
-14. As usual, start the service and verify that it is working properly.
+11. As usual, start the service and verify that it is working properly.
     ```sh
     sudo systemctl start kibana
     sudo lsof -i -P -n | grep LISTEN | grep 5601
@@ -90,7 +78,7 @@ You have VM or Linux OS, and Internet Connection
     ```
     Head over to http://localhost:5601 with your browser 
    
-15. Routing Linux Logs to ElasticSearch
+12. Routing Linux Logs to ElasticSearch
     To create Logstash configuration files, head over to /etc/logstash/conf.d and create a logstash.conf file.
     Inside, append the following content:
     ```sh
@@ -115,20 +103,20 @@ You have VM or Linux OS, and Internet Connection
     ```
     Note : for this tutorial, we are using the UDP input for Logstash, but if you are looking for a more reliable way to transfer your logs, you should      probably use the TCP input. The format is pretty much the same, just change the UDP line to TCP.
 
-16. Restart your Logstash service.
+13. Restart your Logstash service.
     ```sh
     sudo systemctl restart logstash
     ```
-17. Installing Logstash
+14. Installing Logstash
     ```sh
     sudo apt-get install logstash
     ```
-18. To verify that everything is running correctly, issue the following command:
+15. To verify that everything is running correctly, issue the following command:
     ```sh
     netstat -na | grep 10514
     udp        0      0 127.0.0.1:10514         0.0.0.0:* 
     ```
-19. In order to forward logs in rsyslog, head over to /etc/rsyslog.d and create a new file named 70-output.conf
+16. In order to forward logs in rsyslog, head over to /etc/rsyslog.d and create a new file named 70-output.conf
     Inside your file, write the following content:
     ```sh
     # This line sends all lines to defined IP address at port 10514
@@ -136,7 +124,7 @@ You have VM or Linux OS, and Internet Connection
 
     *.*                         @127.0.0.1:10514;json-template
     ```
-20. Now that you have log forwarding, create a 01-json-template.conf file in the same folder, and paste the following content:
+17. Now that you have log forwarding, create a 01-json-template.conf file in the same folder, and paste the following content:
     ```sh
     template(name="json-template"
       type="list") {
@@ -152,7 +140,7 @@ You have VM or Linux OS, and Internet Connection
         constant(value="\"}\n")
     }
     ```
-21. As you probably guessed it, for every incoming message, rsyslog will interpolate log properties into a JSON formatted message, and forward it to      Logstash, listening on port 10514. Restart your rsyslog service, and verify that logs are correctly forwarded to ElasticSearch.
+18. As you probably guessed it, for every incoming message, rsyslog will interpolate log properties into a JSON formatted message, and forward it to      Logstash, listening on port 10514. Restart your rsyslog service, and verify that logs are correctly forwarded to ElasticSearch.
     ```sh
     sudo systemctl restart rsyslog
     curl -XGET 'http://localhost:9200/logstash-*/_search?q=*&pretty'
@@ -198,10 +186,10 @@ Building a Log Dashboard in Kibana
 
 Head over to Kibana (on http://localhost:5601) and visit menu Discover to see Log Linux. 
 
-<!-- CONTACT -->
-## Contact
+<!-- Conclusion -->
+## Conclusion
 
-Imran Setiadi
+With this tutorial, you know have a better understanding of how you can monitor your entire logging infrastructure easily with Rsyslog and the ELK stack.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
