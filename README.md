@@ -31,10 +31,33 @@ This is an example of how to list things you need to use the software and how to
 
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Installing Java on Ubuntu
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   sudo apt-get install default-jre
+   ```
+2. Adding Elastic packages to your instance
+   ```sh
+   wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+   ```
+3. Then, you can add Elastic source to your APT source list file.
+   ```sh
+   echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+   
+   cat /etc/apt/sources.list.d/elastic-7.x.list deb https://artifacts.elastic.co/packages/7.x/apt stable main
+   
+   sudo apt-get update
+   ```
+3. Install NPM packages
+   ```sh
+   npm install
+   ```
+3. Install NPM packages
+   ```sh
+   npm install
+   ```
+3. Install NPM packages
+   ```sh
+   npm install
    ```
 3. Install NPM packages
    ```sh
