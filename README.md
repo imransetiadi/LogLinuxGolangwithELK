@@ -194,11 +194,14 @@ You have VM or Linux OS, and Internet Connection
       }
      }                
     ```
+Building a Log Dashboard in Kibana
+
+Head over to Kibana (on http://localhost:5601) and visit menu Discover to see Log Linux. 
 
 <!-- CONTACT -->
 ## Contact
 
-Imran Setiadi - - imransetiadi22@gmail.com
+Imran Setiadi
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
