@@ -189,7 +189,7 @@ Head over to Kibana (on http://localhost:5601) and visit menu Discover to see Lo
 <!-- Conclusion -->
 ## Conclusion
 
-With this tutorial, We know have a better understanding of how i can monitor your entire logging infrastructure easily with Rsyslog and the ELK stack.
+With this tutorial, We know have a better understanding of how i can monitor i entire logging infrastructure easily with Rsyslog and the ELK stack.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
