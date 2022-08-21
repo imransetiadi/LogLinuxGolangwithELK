@@ -1,35 +1,21 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
-
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
-
+Monitoring Log Linux with RSYSLOG and ELK Stack. Sometimes you may want to monitor SSH intrusions on your VMs. Sometimes, you might want to see what errors were raised by your application server on a certain day, on a very specific hour. Or you may want to have some insights about who stopped your systemd service on one of your VMs. In this tutorial, we are to build a complete log monitoring pipeline using the ELK stack (ElasticSearch, Logstash and Kibana) and Rsyslog as a powerful syslog server. Before going any further, and jumping into technical considerations right away, let’s have a talk about why do we want to monitor Linux logs with Kibana.
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+Monitoring Linux logs is crucial and every DevOps engineer should know how to do it. Here’s why You have real-time visual feedback about your logs : probably one of the key aspects of log monitoring, you can build meaningful visualizations (such as datatables, pies, graphs or aggregated bar charts) to give some meaning to your logs. You are able to aggregate information to build advanced and more complex dashboards : sometimes raw information is not enough, you may want to join it with other logs or to compare it with other logs to identify a trend. A visualization platform with expression handling lets you perform that. You can quickly filter for a certain term, or given a certain time period  if you are only interested in SSH logs, you can build a targeted dashboard for it. Logs are navigable in a quick and elegant way : I know the pain of tailing and greping your logs files endlessly. I’d rather have a platform for it.
+
+Historically, Linux logging starts with syslog. Syslog is a protocol developed in 1980 which aims at standardizing the way logs are formatted, not only for 
+Linux, but for any system exchanging logs. From there, syslog servers were developed and were embedded with the capability of handling syslog messages. 
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+You have VM or Linux OS, and Internet Connection 
 
 ### Installation
-
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
 1. Installing Java on Ubuntu
    ```sh
@@ -145,14 +131,69 @@ _Below is an example of how you can instruct your audience on installing and set
 19. In order to forward logs in rsyslog, head over to /etc/rsyslog.d and create a new file named 70-output.conf
     Inside your file, write the following content:
     ```sh
-    npm install
-    ```
-11. Installing Logstash
-   ```sh
-   sudo apt-get install logstash
-   ```
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+    # This line sends all lines to defined IP address at port 10514
+    # using the json-template format.
 
+    *.*                         @127.0.0.1:10514;json-template
+    ```
+20. Now that you have log forwarding, create a 01-json-template.conf file in the same folder, and paste the following content:
+    ```sh
+    template(name="json-template"
+      type="list") {
+        constant(value="{")
+        constant(value="\"@timestamp\":\"")     property(name="timereported" dateFormat="rfc3339")
+        constant(value="\",\"@version\":\"1")
+        constant(value="\",\"message\":\"")     property(name="msg" format="json")
+        constant(value="\",\"sysloghost\":\"")  property(name="hostname")
+        constant(value="\",\"severity\":\"")    property(name="syslogseverity-text")
+        constant(value="\",\"facility\":\"")    property(name="syslogfacility-text")
+        constant(value="\",\"programname\":\"") property(name="programname")
+        constant(value="\",\"procid\":\"")      property(name="procid")
+        constant(value="\"}\n")
+    }
+    ```
+21. As you probably guessed it, for every incoming message, rsyslog will interpolate log properties into a JSON formatted message, and forward it to      Logstash, listening on port 10514. Restart your rsyslog service, and verify that logs are correctly forwarded to ElasticSearch.
+    ```sh
+    sudo systemctl restart rsyslog
+    curl -XGET 'http://localhost:9200/logstash-*/_search?q=*&pretty'
+    {
+     "took": 2,
+     "timed_out": false,
+     "_shards": {
+     "total": 1,
+     "successful": 1,
+     "skipped": 0,
+     "failed": 0
+    },
+     "hits": {
+     "total": {
+     "value": 10000,
+     "relation": "gte"
+    },
+     "max_score": 1,
+     "hits": [
+      {
+        "_index": "logstash-2019.07.08-000001",
+        "_type": "_doc",
+        "_id": "GEBK1WsBQwXNQFYwP8D_",
+        "_score": 1,
+        "_source": {
+          "host": "127.0.0.1",
+          "severity": "info",
+          "programname": "memory_usage",
+          "facility": "user",
+          "@timestamp": "2019-07-09T05:52:21.402Z",
+          "sysloghost": "schkn-ubuntu",
+          "message": "                                  Dload  Upload   Total   Spent    Left  Speed",
+          "@version": "1",
+          "procid": "16780",
+          "type": "rsyslog"
+         }
+        }
+       ]
+      }
+     }                
+    ```
 
 <!-- CONTACT -->
 ## Contact
