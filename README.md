@@ -1,12 +1,12 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Monitoring Log Linux with RSYSLOG and ELK Stack. Sometimes you may want to monitor SSH intrusions on your VMs. Sometimes, you might want to see what errors were raised by your application server on a certain day, on a very specific hour. Or you may want to have some insights about who stopped your systemd service on one of your VMs. In this tutorial, we are to build a complete log monitoring pipeline using the ELK stack (ElasticSearch, Logstash and Kibana) and Rsyslog as a powerful syslog server. Before going any further, and jumping into technical considerations right away, let’s have a talk about why do we want to monitor Linux logs with Kibana.
+Monitoring Log Linux with RSYSLOG and ELK Stack. Sometimes you may want to monitor SSH intrusions on your VMs. Sometimes, you might want to see what errors were raised by your application server on a certain day, on a very specific hour. Or you may want to have some insights about who stopped your systemd service on one of your VMs. In this tutorial, we are to build a complete log monitoring pipeline using the ELK stack (ElasticSearch, Logstash and Kibana) and Rsyslog as a powerful syslog server.
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Monitoring Linux logs is crucial and every DevOps engineer should know how to do it. Here’s why You have real-time visual feedback about your logs : probably one of the key aspects of log monitoring, you can build meaningful visualizations (such as datatables, pies, graphs or aggregated bar charts) to give some meaning to your logs. You are able to aggregate information to build advanced and more complex dashboards : sometimes raw information is not enough, you may want to join it with other logs or to compare it with other logs to identify a trend. A visualization platform with expression handling lets you perform that. You can quickly filter for a certain term, or given a certain time period  if you are only interested in SSH logs, you can build a targeted dashboard for it. Logs are navigable in a quick and elegant way : I know the pain of tailing and greping your logs files endlessly. I’d rather have a platform for it.
+Monitoring Linux logs is crucial and every DevOps engineer should know how to do it. Here’s why You have real-time visual feedback about your logs : probably one of the key aspects of log monitoring, you can build meaningful visualizations (such as datatables, pies, graphs or aggregated bar charts) to give some meaning to your logs. You are able to aggregate information to build advanced and more complex dashboards : sometimes raw information is not enough, you may want to join it with other logs or to compare it with other logs to identify a trend. A visualization platform with expression handling lets you perform that. You can quickly filter for a certain term, or given a certain time period  if you are only interested in SSH logs, you can build a targeted dashboard for it.
 
 Historically, Linux logging starts with syslog. Syslog is a protocol developed in 1980 which aims at standardizing the way logs are formatted, not only for 
 Linux, but for any system exchanging logs. From there, syslog servers were developed and were embedded with the capability of handling syslog messages. 
@@ -189,7 +189,7 @@ Head over to Kibana (on http://localhost:5601) and visit menu Discover to see Lo
 <!-- Conclusion -->
 ## Conclusion
 
-With this tutorial, you know have a better understanding of how you can monitor your entire logging infrastructure easily with Rsyslog and the ELK stack.
+With this tutorial, We know have a better understanding of how i can monitor your entire logging infrastructure easily with Rsyslog and the ELK stack.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
