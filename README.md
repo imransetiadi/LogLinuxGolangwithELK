@@ -195,5 +195,5 @@ With this tutorial, We know have a better understanding of how i can monitor i e
 
 <!-- LICENCE -->
 ## LICENCE
-I want to say Thank You for the creator to help me learn a lot, i get the full tutorial, if you want check you can visit :https://ashish.one/blogs/shipping-golang-logs-with-elkb-stack/#1-write-json-logs-to-the-file-in-go 
+I want to say Thank You for the creator to help me learn a lot, i get the full tutorial, if you want check you can visit : https://devconnected.com/monitoring-linux-logs-with-kibana-and-rsyslog/
 
